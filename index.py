@@ -11,7 +11,15 @@ def home():      # función  que devuelve información al navegador
 
 @app.route('/about')
 def about():
-    return render_template("about.html")
+    return render_template("home1.html")
+
+@app.route('/about2')
+def about2():
+    return render_template("home2.html")
+
+@app.route('/about3')
+def about3():
+    return render_template("home3.html")
 
 @app.route('/contacts')
 def contacts():

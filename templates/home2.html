@@ -1,0 +1,157 @@
+{% extends "layout.html" %}  <!-- declaro de donde traigo la plantilla -->
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <span class="fs-5 d-none d-sm-inline">Menu</span>
+                </a>
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link align-middle px-0">
+                            <i class="fa-solid fa-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                            <i class="fa-sharp fa-solid fa-gauge"></i> <span class="ms-1 d-none d-sm-inline">Dashboard</span> </a>
+                        <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+                            <li class="w-100">
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1 </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2 </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle">
+                            <i class="fa-solid fa-table"></i></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
+                    </li>
+                    <li>
+                        <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
+                            <i class="fa-brands fa-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Bootstrap</span></a>
+                        <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
+                            <li class="w-100">
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1</a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">   
+                            <i class="fa-solid fa-people-arrows"></i> <span class="ms-1 d-none d-sm-inline">Products</span> </a>
+                            <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+                            <li class="w-100">
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 1</a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 2</a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 3</a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 4</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle">
+                            <i class="fa-solid fa-people-arrows"></i> <span class="ms-1 d-none d-sm-inline">Customers</span> </a>
+                    </li>
+                </ul>
+                <hr>
+                <div class="dropdown pb-4">
+                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                        <span class="d-none d-sm-inline mx-1">loser</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                        <li><a class="dropdown-item" href="#">New project...</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Sign out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col py-3">
+            <div class="card" id="card" style="width: 18rem;"></div>
+        </div>
+
+        <script>
+            function obtenerDatos() {
+                fetch('https://appweb-ff96f-default-rtdb.firebaseio.com/cursos.json')
+                .then(response => response.json())
+                .then(data => {
+                    const cardDeck = document.getElementById('card');
+                    cardDeck.innerHTML = '';
+
+                    for (let key in data) {  //La variable data contiene los datos en formato JSON que se obtienen utilizando la función fetch.
+                    const objeto = data[key];
+
+                    const card = document.createElement('div');  //Aquí se está creando un nuevo elemento HTML div y asignándolo a la variable card. Luego se agrega la clase "card" a ese elemento utilizando el método classList.add().
+                    card.classList.add('card');
+
+                    const imagen = document.createElement('img');
+                    imagen.classList.add('card-img-top');
+                    imagen.src = objeto.imagen;
+
+                    const cardBody = document.createElement('div');
+                    cardBody.classList.add('card-body');
+
+                    const titulo = document.createElement('h5');
+                    titulo.classList.add('card-title');
+                    titulo.textContent = objeto["nombrecurso"];
+
+                    const duracion = document.createElement('p');
+                    duracion.classList.add('card-text');
+                    duracion.textContent = 'Duración: ' + objeto.duracion + ' horas';
+
+
+
+                    // Agregar los elementos a la card, crea los elementos HTML que conforman una tarjeta y los agrega en el orden correspondiente, para finalmente agregar la tarjeta completa al contenedor de tarjetas.
+                    cardBody.appendChild(titulo);
+                    cardBody.appendChild(duracion);
+
+                    card.appendChild(imagen);
+                    card.appendChild(cardBody);
+
+                    cardDeck.appendChild(card);
+                    }
+                });
+            }
+
+
+             // Ejecutar la función obtenerDatos al cargar la página
+            obtenerDatos();
+
+            // Ejecutar la función obtenerDatos cada 5 segundos utilizando setInterval
+            setInterval(obtenerDatos, 5000);
+</script>
+        </script>
+
+        <!--
+            <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Título de la tarjeta</h5>
+                  <p class="card-text">Un texto de ejemplo rápido para colocal cerca del título de la tarjeta y componer la mayor parte del contenido de la tarjeta.</p>
+                  <a href="#" class="btn btn-primary">Ir a algún lugar</a>
+                </div>
+              </div>
+            -->
+    </div>
+</div>
+
+
+  {% endblock%}
