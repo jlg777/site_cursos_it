@@ -1,0 +1,72 @@
+{% extends "layout.html" %}  <!-- declaro de donde traigo la plantilla -->
+
+{% block content %}
+
+
+        
+    <form id="form-curso"> 
+    <div class="container-fluid"> 
+        <div class="mb-3">
+            <H3>CARGA DE NUEVOS CURSOS</H3>
+            <label for="nombrecurso" class="form-label">Nombre del curso</label>
+            <input type="text" class="form-control" id="nombrecurso" placeholder="Ejemplo de input placeholder" required>
+        </div>
+        <div class="mb-3">
+            <label for="duracion" class="form-label">Duracion del curso</label>
+            <input type="number" class="form-control" id="duracion" placeholder="Otro input placeholder" required>
+        </div>
+        <div class="mb-3">
+            <label for="imagen">Imagen del curso:</label>
+            <input type="file" class="form-control" id="imagen" required>
+          </div>
+        
+        <button type="submit" class="btn btn-primary">Enviar</button>
+         
+        
+    </div>  
+    </form>
+        <script>
+            // Agregar un evento al formulario para enviar los datos a la API
+      const formCurso = document.getElementById('form-curso');
+      formCurso.addEventListener('submit', (event) => {
+        event.preventDefault(); // Evita que la página se recargue al enviar el formulario
+
+        // Obtener la imagen seleccionada
+        const imagenInput = document.getElementById('imagen');
+        const imagenFile = imagenInput.files[0];
+        const reader = new FileReader();
+
+        // Convertir la imagen a base64
+        reader.onload = (event) => {
+  const imagenBase64 = event.target.result;
+
+  // Obtener los valores del formulario
+  const nombreCurso = document.getElementById('nombrecurso').value;
+  const duracion = document.getElementById('duracion').value;
+  
+
+  // Enviar los datos a la API
+  fetch('https://appweb-ff96f-default-rtdb.firebaseio.com/cursos.json', {
+    method: 'POST',
+    body: JSON.stringify({
+      nombrecurso: nombreCurso,
+      duracion: duracion,
+      imagen: imagenBase64
+    })
+  })
+  .then(response => {
+    alert('El curso ha sido agregado con éxito');
+    
+  })
+  .catch(error => console.error(error));
+};
+
+reader.readAsDataURL(imagenFile);
+});
+</script>
+
+        
+
+
+
+  {% endblock%}

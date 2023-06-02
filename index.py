@@ -21,9 +21,13 @@ def about2():
 def about3():
     return render_template("home3.html")
 
-@app.route('/contacts')
-def contacts():
-    return render_template("contacts.html")
+@app.route('/admin')
+def admin():
+    return render_template("admin_put.html")
+
+@app.route('/admin2')
+def admin2():
+    return render_template("admin_post.html")
 
 # validamos si estamos en el archivo principal para que siempre se quede
 # escuchando una peticion del usuario y si se cumple ejecuta el app.run

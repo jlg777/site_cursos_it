@@ -117,11 +117,68 @@
                     duracion.classList.add('card-text');
                     duracion.textContent = 'Duración: ' + objeto.duracion + ' horas';
 
+                    // Agregar botones para modificar los campos
+                    const btnNombre = document.createElement('button');
+                    btnNombre.classList.add('btn', 'btn-primary', 'mb-2');
+                    btnNombre.textContent = 'Modificar nombre';
+                    btnNombre.addEventListener('click', () => {
+                    const nuevoNombre = prompt('Ingrese el nuevo nombre del curso:', objeto.nombrecurso);
+                    if (nuevoNombre) {
+                    objeto.nombrecurso = nuevoNombre;
+                    actualizarDatos(objeto, key);
+                    }
+                    });
 
+                    const btnDuracion = document.createElement('button');
+                    btnDuracion.classList.add('btn', 'btn-primary', 'mb-2');
+                    btnDuracion.textContent = 'Modificar duración';
+                    btnDuracion.addEventListener('click', () => {
+                    const nuevaDuracion = prompt('Ingrese la nueva duración del curso:', objeto.duracion);
+                    if (nuevaDuracion) {
+                    objeto.duracion = nuevaDuracion;
+                    actualizarDatos(objeto, key);
+                    }
+                    });
+
+          
+                    const btnImagen = document.createElement('button');
+                    btnImagen.classList.add('btn', 'btn-primary', 'mb-2');
+                    btnImagen.textContent = 'Modificar imagen';
+                    btnImagen.addEventListener('click', () => {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'image/*';
+                    input.addEventListener('change', () => {
+                    const fileReader = new FileReader();
+                    fileReader.readAsDataURL(input.files[0]);
+                    fileReader.onload = () => {
+                    objeto.imagen = fileReader.result;
+                    actualizarDatos(objeto, key);
+                    }
+                    });
+                    input.click();
+                    });
+
+                    const eliminar = document.createElement('button');
+                    eliminar.classList.add('btn', 'btn-danger');
+                    eliminar.textContent = 'Eliminar';
+                    eliminar.addEventListener('click', () => {
+                    borrarDatos(key);
+                    card.remove();
+                    alert('Curso eliminado correctamente.');
+                    });
 
                     // Agregar los elementos a la card, crea los elementos HTML que conforman una tarjeta y los agrega en el orden correspondiente, para finalmente agregar la tarjeta completa al contenedor de tarjetas.
                     cardBody.appendChild(titulo);
                     cardBody.appendChild(duracion);
+
+                    cardBody.appendChild(btnNombre);
+                    cardBody.appendChild(document.createElement('br'));
+                    cardBody.appendChild(btnDuracion);
+                    cardBody.appendChild(document.createElement('br'));
+                    cardBody.appendChild(btnImagen);
+                    cardBody.appendChild(document.createElement('br'));
+                    cardBody.appendChild(eliminar);
 
                     card.appendChild(imagen);
                     card.appendChild(cardBody);
@@ -129,9 +186,34 @@
                     cardDeck.appendChild(card);
                     }
                 });
+            
             }
 
+            // Función que actualiza los datos en la API
+            function actualizarDatos(objeto, key) {
+             fetch(`https://appweb-ff96f-default-rtdb.firebaseio.com/cursos/${key}.json`, {
+            method: 'PUT',
+             body: JSON.stringify(objeto)
+            })
+            .then(response => {
+              if (response.ok) {
+               alert('Datos actualizados correctamente');
+            location.reload();
+              } else {
+            throw new Error('Error al actualizar los datos');
+            }
+            })
+            .catch(error => console.error(error));
+            }
 
+            // Función que borra los datos de la API
+            function borrarDatos(key) {
+            fetch(`https://appweb-ff96f-default-rtdb.firebaseio.com/cursos/${key}.json`, {
+            method: 'DELETE'
+            });
+            alert('Datos actualizados correctamente');
+            location.reload();
+            } 
              // Ejecutar la función obtenerDatos al cargar la página
             obtenerDatos();
 
@@ -139,17 +221,6 @@
             setInterval(obtenerDatos, 5000);
 </script>
         
-
-        <!--
-            <div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Título de la tarjeta</h5>
-                  <p class="card-text">Un texto de ejemplo rápido para colocal cerca del título de la tarjeta y componer la mayor parte del contenido de la tarjeta.</p>
-                  <a href="#" class="btn btn-primary">Ir a algún lugar</a>
-                </div>
-              </div>
-            -->
     </div>
 </div>
 
