@@ -84,79 +84,73 @@
                 </div>
             </div>
         </div>
-        <div class="container-detalle">
+        <div id="container" style="width: 18rem">
             
+                <div class="card-deck" id="card-deck" style="width: 18rem;margin-top: 20px;margin-bottom:auto;" ></div>
             
         </div>
 
-        <script>
-            function obtenerDatos() {
-                fetch('https://appweb-ff96f-default-rtdb.firebaseio.com/cursos.json')
-                .then(response => response.json())// Convierte los datos en formato JSON a un objeto JavaScript
-                .then(data => { // Recibe los datos y crea la variable "data"
-                    const cardDeck = document.getElementById('container-detalle'); // Obtiene el elemento contenedor para las cards
-                    cardDeck.innerHTML = ''; // Limpia el contenido previo del contenedor de cards
-        
-                    // Iterar sobre los datos y crear una card para cada objeto
-                    for (let key in data) {  // Itera sobre cada objeto en los datos
-                        const objeto = data[key];
-        
-                        
-        
-                        const card = document.createElement('div');  //Aquí se está creando un nuevo elemento HTML div y asignándolo a la variable card. Luego se agrega la clase "card" a ese elemento utilizando el método classList.add().
-                        card.classList.add('card');
-        
-                        const imagen = document.createElement('img');
-                        imagen.classList.add('card-img-top');
-                        imagen.src = objeto.imagen;
-        
-                        const cardBody = document.createElement('div');
-                        cardBody.classList.add('card-body');
-        
-                        const titulo = document.createElement('h5');
-                        titulo.classList.add('card-title');
-                        titulo.textContent = objeto["nombrecurso"];
-        
-                        const duracion = document.createElement('p');
-                        duracion.classList.add('card-text');
-                        duracion.textContent = 'Duración: ' + objeto.duracion + ' horas';
-        
-                        const botonDetalle = document.createElement('button'); // Crear el botón de detalle
-                      botonDetalle.classList.add('btn', 'btn-primary');
-                      botonDetalle.textContent = 'Detalle';
-                      // Agregar el evento de clic al botón para redirigir a otra página
-                      botonDetalle.addEventListener('click', function() {
-                        window.location.pathname = 'about3?id=' + key; // Cambia 'otra_pagina.html' por la ruta de tu página y 'id' por el parámetro necesario para identificar el objeto en la página de descripción
-                      });
-        
-        
-        
-                        // Agregar los elementos a la card, crea los elementos HTML que conforman una tarjeta y los agrega en el orden correspondiente, para finalmente agregar la tarjeta completa al contenedor de tarjetas.
-                        cardBody.appendChild(titulo); // Añade el elemento del título al cuerpo de la card, es decir añade elementos hijos dentro de un elemento padre
-                        cardBody.appendChild(duracion);
-                        cardBody.appendChild(botonDetalle); // Agregar el botón al cuerpo de la card
-                        
-                        card.appendChild(imagen);
-                        card.appendChild(cardBody);
-        
-                        cardDeck.appendChild(card);
-                        
-                    }
-                });
-            }
-        
-        
-                     // Ejecutar la función obtenerDatos al cargar la página
-                    obtenerDatos();
-        
-                    // Ejecutar la función obtenerDatos cada 5 segundos utilizando setInterval
-                    setInterval(obtenerDatos, 5000);
-        </script>
-                
-         
-    
-      
+<script>
 
-       
+    // Obtener el parámetro 'id' de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+      const cursoId = urlParams.get('id');
+
+    function obtenerDatos() {
+        fetch('https://appweb-ff96f-default-rtdb.firebaseio.com/cursos/' + cursoId + '.json')
+        .then(response => response.json())// Convierte los datos en formato JSON a un objeto JavaScript
+        .then(data => { // Recibe los datos y crea la variable "data"
+            const cardDeck = document.getElementById('container'); // Obtiene el elemento contenedor para las cards
+            cardDeck.innerHTML = ''; // Limpia el contenido previo del contenedor de cards
+                     
+
+                const card = document.createElement('div');  //Aquí se está creando un nuevo elemento HTML div y asignándolo a la variable card. Luego se agrega la clase "card" a ese elemento utilizando el método classList.add().
+                card.classList.add('card');
+
+                const imagen = document.createElement('img');
+                imagen.classList.add('card-img-top');
+                imagen.src = data.imagen;
+
+                const cardBody = document.createElement('div');
+                cardBody.classList.add('card-body');
+
+                const titulo = document.createElement('h5');
+                titulo.classList.add('card-title');
+                titulo.textContent = data["nombrecurso"];
+
+                const duracion = document.createElement('p');
+                duracion.classList.add('card-text');
+                duracion.textContent = 'Duración: ' + data.duracion + ' horas';
+
+                
+
+
+
+                // Agregar los elementos a la card, crea los elementos HTML que conforman una tarjeta y los agrega en el orden correspondiente, para finalmente agregar la tarjeta completa al contenedor de tarjetas.
+                cardBody.appendChild(titulo); // Añade el elemento del título al cuerpo de la card, es decir añade elementos hijos dentro de un elemento padre
+                cardBody.appendChild(duracion);
+                
+                
+                card.appendChild(imagen);
+                card.appendChild(cardBody);
+
+                cardDeck.appendChild(card);
+                
+            }
+        )};
+    
+
+
+             // Ejecutar la función obtenerDatos al cargar la página
+            obtenerDatos();
+
+            // Ejecutar la función obtenerDatos cada 5 segundos utilizando setInterval
+            setInterval(obtenerDatos, 5000);
+</script>
+        
+
+        
+
+
 
   {% endblock%}

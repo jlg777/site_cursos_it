@@ -84,52 +84,67 @@
                 </div>
             </div>
         </div>
-        <div class="col py-3">
-            <div class="card" id="card" style="width: 18rem;"></div>
+        <div class="container">
+            
+                <div class="card-deck" id="card-deck" style="width: 18rem;margin-top: 20px;margin-bottom:auto;" ></div>
+            
         </div>
 
-        <script>
-            function obtenerDatos() {
-                fetch('https://appweb-ff96f-default-rtdb.firebaseio.com/cursos.json')
-                .then(response => response.json())
-                .then(data => {
-                    const cardDeck = document.getElementById('card');
-                    cardDeck.innerHTML = '';
+<script>
+    function obtenerDatos() {
+        fetch('https://appweb-ff96f-default-rtdb.firebaseio.com/cursos.json')
+        .then(response => response.json())// Convierte los datos en formato JSON a un objeto JavaScript
+        .then(data => { // Recibe los datos y crea la variable "data"
+            const cardDeck = document.getElementById('card-deck'); // Obtiene el elemento contenedor para las cards
+            cardDeck.innerHTML = ''; // Limpia el contenido previo del contenedor de cards
 
-                    for (let key in data) {  //La variable data contiene los datos en formato JSON que se obtienen utilizando la función fetch.
-                    const objeto = data[key];
+            // Iterar sobre los datos y crear una card para cada objeto
+            for (let key in data) {  // Itera sobre cada objeto en los datos
+                const objeto = data[key];
 
-                    const card = document.createElement('div');  //Aquí se está creando un nuevo elemento HTML div y asignándolo a la variable card. Luego se agrega la clase "card" a ese elemento utilizando el método classList.add().
-                    card.classList.add('card');
+                
 
-                    const imagen = document.createElement('img');
-                    imagen.classList.add('card-img-top');
-                    imagen.src = objeto.imagen;
+                const card = document.createElement('div');  //Aquí se está creando un nuevo elemento HTML div y asignándolo a la variable card. Luego se agrega la clase "card" a ese elemento utilizando el método classList.add().
+                card.classList.add('card');
 
-                    const cardBody = document.createElement('div');
-                    cardBody.classList.add('card-body');
+                const imagen = document.createElement('img');
+                imagen.classList.add('card-img-top');
+                imagen.src = objeto.imagen;
 
-                    const titulo = document.createElement('h5');
-                    titulo.classList.add('card-title');
-                    titulo.textContent = objeto["nombrecurso"];
+                const cardBody = document.createElement('div');
+                cardBody.classList.add('card-body');
 
-                    const duracion = document.createElement('p');
-                    duracion.classList.add('card-text');
-                    duracion.textContent = 'Duración: ' + objeto.duracion + ' horas';
+                const titulo = document.createElement('h5');
+                titulo.classList.add('card-title');
+                titulo.textContent = objeto["nombrecurso"];
+
+                const duracion = document.createElement('p');
+                duracion.classList.add('card-text');
+                duracion.textContent = 'Duración: ' + objeto.duracion + ' horas';
+
+                const botonDetalle = document.createElement('button'); // Crear el botón de detalle
+              botonDetalle.classList.add('btn', 'btn-primary');
+              botonDetalle.textContent = 'Detalle';
+              // Agregar el evento de clic al botón para redirigir a otra página
+              botonDetalle.addEventListener('click', function() {
+                window.location.href = 'about4?id=' + key; // Cambia 'otra_pagina.html' por la ruta de tu página y 'id' por el parámetro necesario para identificar el objeto en la página de descripción
+              });
 
 
 
-                    // Agregar los elementos a la card, crea los elementos HTML que conforman una tarjeta y los agrega en el orden correspondiente, para finalmente agregar la tarjeta completa al contenedor de tarjetas.
-                    cardBody.appendChild(titulo);
-                    cardBody.appendChild(duracion);
+                // Agregar los elementos a la card, crea los elementos HTML que conforman una tarjeta y los agrega en el orden correspondiente, para finalmente agregar la tarjeta completa al contenedor de tarjetas.
+                cardBody.appendChild(titulo); // Añade el elemento del título al cuerpo de la card, es decir añade elementos hijos dentro de un elemento padre
+                cardBody.appendChild(duracion);
+                cardBody.appendChild(botonDetalle); // Agregar el botón al cuerpo de la card
+                
+                card.appendChild(imagen);
+                card.appendChild(cardBody);
 
-                    card.appendChild(imagen);
-                    card.appendChild(cardBody);
-
-                    cardDeck.appendChild(card);
-                    }
-                });
+                cardDeck.appendChild(card);
+                
             }
+        });
+    }
 
 
              // Ejecutar la función obtenerDatos al cargar la página
@@ -140,18 +155,8 @@
 </script>
         
 
-        <!--
-            <div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Título de la tarjeta</h5>
-                  <p class="card-text">Un texto de ejemplo rápido para colocal cerca del título de la tarjeta y componer la mayor parte del contenido de la tarjeta.</p>
-                  <a href="#" class="btn btn-primary">Ir a algún lugar</a>
-                </div>
-              </div>
-            -->
-    </div>
-</div>
+        
+
 
 
   {% endblock%}

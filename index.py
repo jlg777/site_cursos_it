@@ -21,6 +21,10 @@ def about2():
 def about3():
     return render_template("home3.html")
 
+@app.route('/about4')
+def about4():
+    return render_template("home4.html")
+
 @app.route('/admin')
 def admin():
     return render_template("admin_put.html")
