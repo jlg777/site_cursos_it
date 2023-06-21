@@ -33,6 +33,11 @@ def admin():
 def admin2():
     return render_template("admin_post.html")
 
+
+@app.route('/admin3')
+def admin2():
+    return render_template("registro.html")
+
 # validamos si estamos en el archivo principal para que siempre se quede
 # escuchando una peticion del usuario y si se cumple ejecuta el app.run
 if __name__ == '__main__':
