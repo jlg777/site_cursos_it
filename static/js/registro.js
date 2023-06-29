@@ -30,7 +30,7 @@ document.getElementById("registroForm").addEventListener("submit", function(even
       };
       
       if (emailExiste) {
-        alert("El número de DNI ya existe en un registro.");
+        alert("El número de Email ingresado ya existe en un registro.");
       } else {
         // Realizar la petición POST a la API para guardar los datos de registro
         fetch(url, {
