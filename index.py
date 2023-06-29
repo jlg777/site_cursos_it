@@ -35,7 +35,7 @@ def admin2():
 
 
 @app.route('/admin3')
-def admin2():
+def admin3():
     return render_template("registro.html")
 
 # validamos si estamos en el archivo principal para que siempre se quede
