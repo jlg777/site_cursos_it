@@ -38,6 +38,11 @@ def admin2():
 def admin3():
     return render_template("registro.html")
 
+
+@app.route('/login')
+def login():
+    return render_template("login.html")
+
 # validamos si estamos en el archivo principal para que siempre se quede
 # escuchando una peticion del usuario y si se cumple ejecuta el app.run
 if __name__ == '__main__':
