@@ -28,7 +28,7 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
           localStorage.setItem("registroId", registroId);
 
           // Redirigir a alumnoscookies.html
-          window.location.href = "alumnoscookies.html";
+          window.location.href = "user";
         } else {
           alert("Credenciales inválidas. Por favor, intenta nuevamente.");
         }

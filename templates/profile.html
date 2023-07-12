@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Perfil</title>
+  <style>
+    /* Estilos básicos */
+    body {
+      font-family: Arial, sans-serif;
+    }
+    table {
+      border-collapse: collapse;
+      width: 400px;
+      margin: 0 auto;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <h1>Perfil</h1>
+
+  <table>
+    
+    <tr>
+      <th>Nombre y Apellido:</th>
+      <td id="nombreyapellido"></td>
+    </tr>
+    <tr>
+      <th>Email:</th>
+      <td id="mail"></td>
+    </tr>
+    <tr>
+      <th>Curso:</th>
+      <td id="curso"></td>
+    </tr>
+  </table>
+
+  <script>
+    // Obtener el ID del registro desde la URL
+    var registroId = localStorage.getItem("registroId");
+
+    // Obtener los datos del registro desde la API
+    var registroUrl = "https://registro-1258a-default-rtdb.europe-west1.firebasedatabase.app/id/"+ registroId + ".json";
+    fetch(registroUrl)
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        document.getElementById("mail").innerText = data.email;
+        document.getElementById("nombreyapellido").innerText = data.nombreyapellido;
+        document.getElementById("curso").innerText = data.Curso;
+      })
+      .catch(function(error) {
+        console.error(error);
+      });
+  </script>
+</body>
+</html>
